@@ -1,0 +1,17 @@
+.content {
+			text-align: center;
+			background-color: #16171E;
+			padding: 50px 100px 300px 100px;
+		}
+		p {
+			font-size: 24px;
+			color: #b4f4f8;
+		}
+
+		.exercise {
+			float: left;
+		}
+		
+		.apartados {
+			padding-left: 0px;
+		}
