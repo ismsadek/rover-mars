@@ -3,7 +3,17 @@
  	direction: "N",
  	x: 0,
  	y: 0,
-  travelLog: []
+  travelLog: [],
+  grid: [ [0,0,0,1,0,0,0,0,0,0],
+          [0,0,0,0,1,0,0,0,0,0],
+          [1,0,0,0,0,0,0,0,0,0],
+          [0,0,0,1,0,0,0,0,0,0],
+          [0,0,0,0,1,0,0,0,0,0],
+          [1,0,0,0,0,0,0,0,0,0],
+          [0,0,0,1,0,0,0,0,0,0],
+          [0,0,0,0,1,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,1,0] ]
+
 
  };
  
@@ -55,47 +65,49 @@ function turnRight(rover){
 // ITERATION 3 AND BONUS BOUNDARIES
 function moveForward(rover) {
   
-  if (rover.direction === "W" && rover.x >0 ){
-  		console.log("moveForward was called and the position is " + rover.x-1 + "," + rover.y );
-      rover.travelLog.push(rover.x , rover.y);
+  if (rover.direction === "W" && rover.x >= 0 && rover.x <10 && rover.grid[rover.x-1][rover.y] === 0) {
+  		rover.x -=1;
+      console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y+ ")" );
+      rover.travelLog.push([rover.x , rover.y]);
   
+    } else if (rover.direction === "S" && rover.y >= 0 && rover.y < 9 && rover.grid[rover.x][rover.y+1] === 0) {
+  		rover.y +=1;
+      console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y+ ")");
+  	  rover.travelLog.push([rover.x , rover.y]);
+    } else if(rover.direction === "N" && rover.y > 0 && rover.y <= 9 && rover.grid[rover.x][rover.y-1] === 0) {
+  		rover.y -=1;
+      console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y+ ")" );
+  	  rover.travelLog.push([rover.x , rover.y]);
+    } else if(rover.direction ==="E" && rover.x >= 0 && rover.x < 9 && rover.grid[rover.x+1][rover.y] === 0) {
+  		rover.x +=1;
+      console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y+ ")");	
+      rover.travelLog.push([rover.x , rover.y]);
+  	} else {
+    console.log("Has llegado al final del mapa o hay un obstáculo, cambia la dirección por favor");
   }
-  if (rover.direction === "S" && rover.y < 9) {
-  		console.log("moveForward was called and the position is " + rover.x + "," + rover.y+1);
-  	  rover.travelLog.push(rover.x , rover.y);
-    }
-  	
-    if(rover.direction === "N" && rover.y > 0) {
-  		console.log("moveForward was called and the position is " + rover.x + "," + rover.y-1 );
-  	  rover.travelLog.push(rover.x , rover.y);
-    }
-
-  	if(rover.direction ==="E" && rover.x < 9) {
-  		console.log("moveForward was called and the position is " + rover.x+1 + "," + rover.y);	
-      rover.travelLog.push(rover.x , rover.y);
-  	}
 }
 
 function moveBackward(rover) {
-  if (rover.direction === "W" && rover.x < 9 ){
-    console.log("moveForward was called and the position is " + rover.x+1 + "," + rover.y );
-      rover.travelLog.push(rover.x , rover.y);
+ if (rover.direction === "W" && rover.x >= 0 && rover.x < 9 && rover.grid[rover.x+1][rover.y] === 0){
+    rover.x +=1;
+    console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y +")" );
+    rover.travelLog.push([rover.x , rover.y]);
   
+  } else if (rover.direction === "S" && rover.y > 0 && rover.y <= 9 && rover.grid[rover.x][rover.y-1] === 0) {
+    rover.y -=1; 
+    console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y +")");
+    rover.travelLog.push([rover.x , rover.y]);
+  } else if(rover.direction === "N" && rover.y >= 0 && rover.y < 9 && rover.grid[rover.x][rover.y+1] === 0) {
+    rover.y +=1;
+    console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y +")" );
+      rover.travelLog.push([rover.x , rover.y]);
+  } else if(rover.direction ==="E" && rover.x > 0 && rover.x <= 9 && rover.grid[rover.x-1][rover.y] === 0) {
+    rover.x -=1;
+    console.log("moveForward was called and the position is " + "(" + rover.x + "," + rover.y +")"); 
+      rover.travelLog.push([rover.x , rover.y]);
+  } else {
+    console.log("Has llegado al final del mapa o hay un obstáculo, cambia la dirección por favor");
   }
-  if (rover.direction === "S" && rover.y > 0) {
-    console.log("moveForward was called and the position is " + rover.x + "," + rover.y-1);
-      rover.travelLog.push(rover.x , rover.y);
-    }
-    
-if(rover.direction === "N" && rover.y < 9) {
-    console.log("moveForward was called and the position is " + rover.x + "," + rover.y+1 );
-      rover.travelLog.push(rover.x , rover.y);
-    }
-
-  if(rover.direction ==="E" && rover.x > 0) {
-    console.log("moveForward was called and the position is " + rover.x-1 + "," + rover.y); 
-      rover.travelLog.push(rover.x , rover.y);
-    }
 }
 
 //  ITERATION 4
@@ -108,9 +120,14 @@ function command (order) {
         turnRight(rover);
     } else if(order[i] === "l") {
         turnLeft(rover);
+    } else if(order[i] === "b")
+      moveBackward(rover);
+     else {
+      console.log("Introduzca r,l,f o b");
     }
   }
 }
+
 
 
 
